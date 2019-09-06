@@ -1,0 +1,190 @@
+syntax = "proto3";
+
+package com.cyto.discord;
+
+import "google/protobuf/empty.proto";
+
+service Discord {
+    rpc GetGuilds(google.protobuf.Empty) returns (GuildList) {}
+    rpc GetGuild(GuildQuery) returns (Guild) {}
+    rpc GetGuildChannels(GuildQuery) returns (ChannelList) {}
+    rpc GetGuildMember(GuildMemberQuery) returns (GuildMember) {}
+    rpc ListGuildMembers(GuildMembersQuery) returns (GuildMemberList) {}
+    rpc GetGuildRoles(GuildQuery) returns (GuildRoleList) {}
+    rpc GetChannel(ChannelQuery) returns (Channel) {}
+    rpc GetChannelMessages(ChannelMessagesQuery) returns (MessageList) {}
+    rpc GetChannelMessage(ChannelMessageQuery) returns (Message) {}
+    rpc GetReactions(ChannelReactionsQuery) returns (UserList) {}
+    rpc GetPinnedMessages(ChannelQuery) returns (MessageList) {}
+    rpc GetUser(UserQuery) returns (User) {}
+}
+
+message GuildQuery {
+    string guildID = 1;
+}
+
+message GuildMemberQuery {
+    string guildID = 1;
+    string userID = 2;
+}
+
+message GuildMembersQuery {
+    string guildId = 1;
+    int32 limit = 2;
+    string afterUserID = 3;
+}
+
+message ChannelQuery {
+    string channelID = 1;
+}
+
+message ChannelMessagesQuery {
+    string channelID = 1;
+    string aroundMessageID = 2;
+    string beforeMessageID = 3;
+    string afterMessageID = 4;
+    int32 limit = 5;
+}
+
+message ChannelMessageQuery {
+    string channelID = 1;
+    string messageID = 2;
+}
+
+message ChannelReactionsQuery {
+    string channelID = 1;
+    string messageID = 2;
+    string emoji = 3;
+    string beforeUserID = 4;
+    string afterUserID = 5;
+    int32 limit = 6;
+}
+
+message UserQuery {
+    string userID = 1;
+}
+
+message GuildList {
+    repeated Guild guilds = 1;
+}
+
+message Guild {
+    string ID = 1;
+    string name = 2;
+    string icon = 3;
+    string splash = 4;
+    string ownerID = 5;
+    int32 permissions = 6;
+    string afkChannelID = 7;
+    bool embedEnabled = 8;
+    string systemChannelID = 9;
+    string description = 10;
+    string joinedAt = 11;
+    string memberCount = 12;
+}
+
+message ChannelList {
+    repeated Channel channels = 1;
+}
+
+message Channel {
+    string ID = 1;
+    int32 type = 2;
+    string guildID = 3;
+    string name = 4;
+    string topic = 5;
+    bool nsfw = 6;
+    string lastMessageID = 7;
+    int32 bitrate = 8;
+    int32 userLimit = 9;
+    repeated User recipients = 10;
+    string icon = 11;
+    string ownerID = 12;
+    string applicationID = 13;
+    string parentID = 14;
+    string lastPinTimestamp = 15;
+}
+
+message GuildMemberList {
+    repeated GuildMember members = 1;
+}
+
+message GuildMember {
+    User user = 1;
+    string nick = 2;
+    repeated string roles = 3;
+    string joinedAt = 4;
+    string premiumSince = 5;
+    bool deaf = 6;
+    bool mute = 7;
+}
+
+message GuildRoleList {
+    repeated GuildRole roles = 1;
+}
+
+message GuildRole {
+    string ID = 1;
+    string name = 2;
+    int32 color = 3;
+    bool hoist = 4;
+    int32 position = 5;
+    int32 permissions = 6;
+    bool managed = 7;
+    bool mentionable = 8;
+}
+
+message MessageList {
+    repeated Message messages = 1;
+}
+
+message Message {
+    string ID = 1;
+    string channelID = 2;
+    string guildID = 3;
+    User author = 4;
+    GuildMember member = 5;
+    string content = 6;
+    string timestamp = 7;
+    string editedTimestamp = 8;
+    bool tts = 9;
+    bool mentionEveryone = 10;
+    repeated User mentions = 11;
+    repeated string mentionRoles = 12;
+    repeated Reaction reactions = 13;
+    string nonce = 14;
+    bool pinned = 15;
+    string webhookID = 16;
+    int32 type = 17;
+}
+
+message Reaction {
+    int32 count = 1;
+    bool me = 2;
+    Emoji emoji = 3;
+}
+
+message Emoji {
+    string ID = 1;
+    string name = 2;
+    repeated string roles = 3;
+    User user = 4;
+    bool requireColons = 5;
+    bool managed = 6;
+    bool animated = 7;
+}
+
+message UserList {
+    repeated User users = 1;
+}
+
+message User {
+    string ID = 1;
+    string username = 2;
+    string discriminator = 3;
+    string avatar = 4;
+    bool bot = 5;
+    string locale = 6;
+    int32 flags = 7;
+    int32 premiumType = 8;
+}

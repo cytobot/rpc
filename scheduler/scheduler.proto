@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package com.cyto.scheduler;
+
+service Scheduler {
+    rpc SetScheduledTask(ScheduledTask) returns (ScheduledTask) {}
+    rpc GetScheduledTask(ScheduledTaskQuery) returns (ScheduledTask) {}
+    rpc GetScheduledTasksForGuild(GuildQuery) returns (ScheduledTaskList) {}
+    rpc GetScheduledTasksForUser(UserQuery) returns (ScheduledTaskList) {}
+    rpc RemoveScheduledTask(ScheduledTaskQuery) returns (ScheduledTask) {}
+    rpc RemoveAllScheduledTasksForGuild(GuildQuery) returns (ScheduledTaskList) {}
+    rpc RemoveAllScheduledTasksForUser(UserQuery) returns (ScheduledTaskList) {}
+}
+
+message GuildQuery {
+    string guildID = 1;
+}
+
+message UserQuery {
+    string userID = 1;
+}
+
+message ScheduledTaskQuery {
+    string taskId = 1;
+}
+
+message ScheduledTaskList {
+    repeated ScheduledTask tasks = 1;
+}
+
+message ScheduledTask {
+    string ID = 1;
+    string creatorID = 2;
+    string createdDate = 3;
+    string guildID = 4;
+    string channelID = 5;
+    bool isDirect = 6;
+    string message = 8;
+    enum IntervalType {
+        SECONDS = 0;
+        MINUTES = 1;
+        HOURS = 2;
+        DAYS = 3;
+        WEEKS = 4;
+        MONTHS = 5;
+        YEARS = 6;    
+    }
+    IntervalType type = 9;
+    int32 interval = 10;
+    bool recurring = 11;
+}
