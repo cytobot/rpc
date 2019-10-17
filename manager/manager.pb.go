@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
 	empty "github.com/golang/protobuf/ptypes/empty"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -25,511 +26,133 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
-type DiscordShardList struct {
-	Shards               []*DiscordShard `protobuf:"bytes,1,rep,name=shards,proto3" json:"shards,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}        `json:"-"`
-	XXX_unrecognized     []byte          `json:"-"`
-	XXX_sizecache        int32           `json:"-"`
+type CommandDefinition_PermissionLevel int32
+
+const (
+	CommandDefinition_USER      CommandDefinition_PermissionLevel = 0
+	CommandDefinition_MODERATOR CommandDefinition_PermissionLevel = 1
+	CommandDefinition_ADMIN     CommandDefinition_PermissionLevel = 2
+	CommandDefinition_OWNER     CommandDefinition_PermissionLevel = 3
+)
+
+var CommandDefinition_PermissionLevel_name = map[int32]string{
+	0: "USER",
+	1: "MODERATOR",
+	2: "ADMIN",
+	3: "OWNER",
 }
 
-func (m *DiscordShardList) Reset()         { *m = DiscordShardList{} }
-func (m *DiscordShardList) String() string { return proto.CompactTextString(m) }
-func (*DiscordShardList) ProtoMessage()    {}
-func (*DiscordShardList) Descriptor() ([]byte, []int) {
+var CommandDefinition_PermissionLevel_value = map[string]int32{
+	"USER":      0,
+	"MODERATOR": 1,
+	"ADMIN":     2,
+	"OWNER":     3,
+}
+
+func (x CommandDefinition_PermissionLevel) String() string {
+	return proto.EnumName(CommandDefinition_PermissionLevel_name, int32(x))
+}
+
+func (CommandDefinition_PermissionLevel) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_cde9ec64f0d2c859, []int{4, 0}
+}
+
+type GuildQuery struct {
+	GuildID              string   `protobuf:"bytes,1,opt,name=guildID,proto3" json:"guildID,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *GuildQuery) Reset()         { *m = GuildQuery{} }
+func (m *GuildQuery) String() string { return proto.CompactTextString(m) }
+func (*GuildQuery) ProtoMessage()    {}
+func (*GuildQuery) Descriptor() ([]byte, []int) {
 	return fileDescriptor_cde9ec64f0d2c859, []int{0}
 }
 
-func (m *DiscordShardList) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_DiscordShardList.Unmarshal(m, b)
+func (m *GuildQuery) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GuildQuery.Unmarshal(m, b)
 }
-func (m *DiscordShardList) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_DiscordShardList.Marshal(b, m, deterministic)
+func (m *GuildQuery) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GuildQuery.Marshal(b, m, deterministic)
 }
-func (m *DiscordShardList) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DiscordShardList.Merge(m, src)
+func (m *GuildQuery) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GuildQuery.Merge(m, src)
 }
-func (m *DiscordShardList) XXX_Size() int {
-	return xxx_messageInfo_DiscordShardList.Size(m)
+func (m *GuildQuery) XXX_Size() int {
+	return xxx_messageInfo_GuildQuery.Size(m)
 }
-func (m *DiscordShardList) XXX_DiscardUnknown() {
-	xxx_messageInfo_DiscordShardList.DiscardUnknown(m)
+func (m *GuildQuery) XXX_DiscardUnknown() {
+	xxx_messageInfo_GuildQuery.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_DiscordShardList proto.InternalMessageInfo
+var xxx_messageInfo_GuildQuery proto.InternalMessageInfo
 
-func (m *DiscordShardList) GetShards() []*DiscordShard {
+func (m *GuildQuery) GetGuildID() string {
 	if m != nil {
-		return m.Shards
+		return m.GuildID
 	}
-	return nil
+	return ""
 }
 
-type DiscordShard struct {
-	ID                   string   `protobuf:"bytes,1,opt,name=ID,json=iD,proto3" json:"ID,omitempty"`
-	Uptime               int32    `protobuf:"varint,2,opt,name=uptime,proto3" json:"uptime,omitempty"`
-	Guilds               int32    `protobuf:"varint,3,opt,name=guilds,proto3" json:"guilds,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+type GuildCommandConfigurationList struct {
+	GuildCommandConfigurations []*GuildCommandConfiguration `protobuf:"bytes,1,rep,name=guildCommandConfigurations,proto3" json:"guildCommandConfigurations,omitempty"`
+	XXX_NoUnkeyedLiteral       struct{}                     `json:"-"`
+	XXX_unrecognized           []byte                       `json:"-"`
+	XXX_sizecache              int32                        `json:"-"`
 }
 
-func (m *DiscordShard) Reset()         { *m = DiscordShard{} }
-func (m *DiscordShard) String() string { return proto.CompactTextString(m) }
-func (*DiscordShard) ProtoMessage()    {}
-func (*DiscordShard) Descriptor() ([]byte, []int) {
+func (m *GuildCommandConfigurationList) Reset()         { *m = GuildCommandConfigurationList{} }
+func (m *GuildCommandConfigurationList) String() string { return proto.CompactTextString(m) }
+func (*GuildCommandConfigurationList) ProtoMessage()    {}
+func (*GuildCommandConfigurationList) Descriptor() ([]byte, []int) {
 	return fileDescriptor_cde9ec64f0d2c859, []int{1}
 }
 
-func (m *DiscordShard) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_DiscordShard.Unmarshal(m, b)
+func (m *GuildCommandConfigurationList) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GuildCommandConfigurationList.Unmarshal(m, b)
 }
-func (m *DiscordShard) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_DiscordShard.Marshal(b, m, deterministic)
+func (m *GuildCommandConfigurationList) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GuildCommandConfigurationList.Marshal(b, m, deterministic)
 }
-func (m *DiscordShard) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DiscordShard.Merge(m, src)
+func (m *GuildCommandConfigurationList) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GuildCommandConfigurationList.Merge(m, src)
 }
-func (m *DiscordShard) XXX_Size() int {
-	return xxx_messageInfo_DiscordShard.Size(m)
+func (m *GuildCommandConfigurationList) XXX_Size() int {
+	return xxx_messageInfo_GuildCommandConfigurationList.Size(m)
 }
-func (m *DiscordShard) XXX_DiscardUnknown() {
-	xxx_messageInfo_DiscordShard.DiscardUnknown(m)
+func (m *GuildCommandConfigurationList) XXX_DiscardUnknown() {
+	xxx_messageInfo_GuildCommandConfigurationList.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_DiscordShard proto.InternalMessageInfo
+var xxx_messageInfo_GuildCommandConfigurationList proto.InternalMessageInfo
 
-func (m *DiscordShard) GetID() string {
+func (m *GuildCommandConfigurationList) GetGuildCommandConfigurations() []*GuildCommandConfiguration {
 	if m != nil {
-		return m.ID
-	}
-	return ""
-}
-
-func (m *DiscordShard) GetUptime() int32 {
-	if m != nil {
-		return m.Uptime
-	}
-	return 0
-}
-
-func (m *DiscordShard) GetGuilds() int32 {
-	if m != nil {
-		return m.Guilds
-	}
-	return 0
-}
-
-type DiscordWorkerList struct {
-	Workers              []*DiscordWorker `protobuf:"bytes,1,rep,name=workers,proto3" json:"workers,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}         `json:"-"`
-	XXX_unrecognized     []byte           `json:"-"`
-	XXX_sizecache        int32            `json:"-"`
-}
-
-func (m *DiscordWorkerList) Reset()         { *m = DiscordWorkerList{} }
-func (m *DiscordWorkerList) String() string { return proto.CompactTextString(m) }
-func (*DiscordWorkerList) ProtoMessage()    {}
-func (*DiscordWorkerList) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cde9ec64f0d2c859, []int{2}
-}
-
-func (m *DiscordWorkerList) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_DiscordWorkerList.Unmarshal(m, b)
-}
-func (m *DiscordWorkerList) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_DiscordWorkerList.Marshal(b, m, deterministic)
-}
-func (m *DiscordWorkerList) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DiscordWorkerList.Merge(m, src)
-}
-func (m *DiscordWorkerList) XXX_Size() int {
-	return xxx_messageInfo_DiscordWorkerList.Size(m)
-}
-func (m *DiscordWorkerList) XXX_DiscardUnknown() {
-	xxx_messageInfo_DiscordWorkerList.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_DiscordWorkerList proto.InternalMessageInfo
-
-func (m *DiscordWorkerList) GetWorkers() []*DiscordWorker {
-	if m != nil {
-		return m.Workers
-	}
-	return nil
-}
-
-type DiscordWorker struct {
-	GuildID              string   `protobuf:"bytes,1,opt,name=guildID,proto3" json:"guildID,omitempty"`
-	UserID               string   `protobuf:"bytes,2,opt,name=userID,proto3" json:"userID,omitempty"`
-	Load                 int32    `protobuf:"varint,3,opt,name=load,proto3" json:"load,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *DiscordWorker) Reset()         { *m = DiscordWorker{} }
-func (m *DiscordWorker) String() string { return proto.CompactTextString(m) }
-func (*DiscordWorker) ProtoMessage()    {}
-func (*DiscordWorker) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cde9ec64f0d2c859, []int{3}
-}
-
-func (m *DiscordWorker) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_DiscordWorker.Unmarshal(m, b)
-}
-func (m *DiscordWorker) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_DiscordWorker.Marshal(b, m, deterministic)
-}
-func (m *DiscordWorker) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DiscordWorker.Merge(m, src)
-}
-func (m *DiscordWorker) XXX_Size() int {
-	return xxx_messageInfo_DiscordWorker.Size(m)
-}
-func (m *DiscordWorker) XXX_DiscardUnknown() {
-	xxx_messageInfo_DiscordWorker.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_DiscordWorker proto.InternalMessageInfo
-
-func (m *DiscordWorker) GetGuildID() string {
-	if m != nil {
-		return m.GuildID
-	}
-	return ""
-}
-
-func (m *DiscordWorker) GetUserID() string {
-	if m != nil {
-		return m.UserID
-	}
-	return ""
-}
-
-func (m *DiscordWorker) GetLoad() int32 {
-	if m != nil {
-		return m.Load
-	}
-	return 0
-}
-
-type CommandList struct {
-	Commands             []*Command `protobuf:"bytes,1,rep,name=commands,proto3" json:"commands,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}   `json:"-"`
-	XXX_unrecognized     []byte     `json:"-"`
-	XXX_sizecache        int32      `json:"-"`
-}
-
-func (m *CommandList) Reset()         { *m = CommandList{} }
-func (m *CommandList) String() string { return proto.CompactTextString(m) }
-func (*CommandList) ProtoMessage()    {}
-func (*CommandList) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cde9ec64f0d2c859, []int{4}
-}
-
-func (m *CommandList) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_CommandList.Unmarshal(m, b)
-}
-func (m *CommandList) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_CommandList.Marshal(b, m, deterministic)
-}
-func (m *CommandList) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CommandList.Merge(m, src)
-}
-func (m *CommandList) XXX_Size() int {
-	return xxx_messageInfo_CommandList.Size(m)
-}
-func (m *CommandList) XXX_DiscardUnknown() {
-	xxx_messageInfo_CommandList.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_CommandList proto.InternalMessageInfo
-
-func (m *CommandList) GetCommands() []*Command {
-	if m != nil {
-		return m.Commands
-	}
-	return nil
-}
-
-type Command struct {
-	ID                   string   `protobuf:"bytes,1,opt,name=ID,json=iD,proto3" json:"ID,omitempty"`
-	Trigger              string   `protobuf:"bytes,2,opt,name=trigger,proto3" json:"trigger,omitempty"`
-	Name                 string   `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
-	Description          string   `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
-	UserConfigurable     bool     `protobuf:"varint,5,opt,name=userConfigurable,proto3" json:"userConfigurable,omitempty"`
-	GuildConfigurable    bool     `protobuf:"varint,6,opt,name=guildConfigurable,proto3" json:"guildConfigurable,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *Command) Reset()         { *m = Command{} }
-func (m *Command) String() string { return proto.CompactTextString(m) }
-func (*Command) ProtoMessage()    {}
-func (*Command) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cde9ec64f0d2c859, []int{5}
-}
-
-func (m *Command) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Command.Unmarshal(m, b)
-}
-func (m *Command) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Command.Marshal(b, m, deterministic)
-}
-func (m *Command) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Command.Merge(m, src)
-}
-func (m *Command) XXX_Size() int {
-	return xxx_messageInfo_Command.Size(m)
-}
-func (m *Command) XXX_DiscardUnknown() {
-	xxx_messageInfo_Command.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Command proto.InternalMessageInfo
-
-func (m *Command) GetID() string {
-	if m != nil {
-		return m.ID
-	}
-	return ""
-}
-
-func (m *Command) GetTrigger() string {
-	if m != nil {
-		return m.Trigger
-	}
-	return ""
-}
-
-func (m *Command) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
-
-func (m *Command) GetDescription() string {
-	if m != nil {
-		return m.Description
-	}
-	return ""
-}
-
-func (m *Command) GetUserConfigurable() bool {
-	if m != nil {
-		return m.UserConfigurable
-	}
-	return false
-}
-
-func (m *Command) GetGuildConfigurable() bool {
-	if m != nil {
-		return m.GuildConfigurable
-	}
-	return false
-}
-
-type UserCommandConfigurationQuery struct {
-	CommandID            string   `protobuf:"bytes,1,opt,name=commandID,proto3" json:"commandID,omitempty"`
-	UserID               string   `protobuf:"bytes,2,opt,name=userID,proto3" json:"userID,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *UserCommandConfigurationQuery) Reset()         { *m = UserCommandConfigurationQuery{} }
-func (m *UserCommandConfigurationQuery) String() string { return proto.CompactTextString(m) }
-func (*UserCommandConfigurationQuery) ProtoMessage()    {}
-func (*UserCommandConfigurationQuery) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cde9ec64f0d2c859, []int{6}
-}
-
-func (m *UserCommandConfigurationQuery) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_UserCommandConfigurationQuery.Unmarshal(m, b)
-}
-func (m *UserCommandConfigurationQuery) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_UserCommandConfigurationQuery.Marshal(b, m, deterministic)
-}
-func (m *UserCommandConfigurationQuery) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_UserCommandConfigurationQuery.Merge(m, src)
-}
-func (m *UserCommandConfigurationQuery) XXX_Size() int {
-	return xxx_messageInfo_UserCommandConfigurationQuery.Size(m)
-}
-func (m *UserCommandConfigurationQuery) XXX_DiscardUnknown() {
-	xxx_messageInfo_UserCommandConfigurationQuery.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_UserCommandConfigurationQuery proto.InternalMessageInfo
-
-func (m *UserCommandConfigurationQuery) GetCommandID() string {
-	if m != nil {
-		return m.CommandID
-	}
-	return ""
-}
-
-func (m *UserCommandConfigurationQuery) GetUserID() string {
-	if m != nil {
-		return m.UserID
-	}
-	return ""
-}
-
-type UserCommandConfiguration struct {
-	CommandID            string   `protobuf:"bytes,1,opt,name=commandID,proto3" json:"commandID,omitempty"`
-	UserID               string   `protobuf:"bytes,2,opt,name=userID,proto3" json:"userID,omitempty"`
-	Configuration        string   `protobuf:"bytes,3,opt,name=configuration,proto3" json:"configuration,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *UserCommandConfiguration) Reset()         { *m = UserCommandConfiguration{} }
-func (m *UserCommandConfiguration) String() string { return proto.CompactTextString(m) }
-func (*UserCommandConfiguration) ProtoMessage()    {}
-func (*UserCommandConfiguration) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cde9ec64f0d2c859, []int{7}
-}
-
-func (m *UserCommandConfiguration) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_UserCommandConfiguration.Unmarshal(m, b)
-}
-func (m *UserCommandConfiguration) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_UserCommandConfiguration.Marshal(b, m, deterministic)
-}
-func (m *UserCommandConfiguration) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_UserCommandConfiguration.Merge(m, src)
-}
-func (m *UserCommandConfiguration) XXX_Size() int {
-	return xxx_messageInfo_UserCommandConfiguration.Size(m)
-}
-func (m *UserCommandConfiguration) XXX_DiscardUnknown() {
-	xxx_messageInfo_UserCommandConfiguration.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_UserCommandConfiguration proto.InternalMessageInfo
-
-func (m *UserCommandConfiguration) GetCommandID() string {
-	if m != nil {
-		return m.CommandID
-	}
-	return ""
-}
-
-func (m *UserCommandConfiguration) GetUserID() string {
-	if m != nil {
-		return m.UserID
-	}
-	return ""
-}
-
-func (m *UserCommandConfiguration) GetConfiguration() string {
-	if m != nil {
-		return m.Configuration
-	}
-	return ""
-}
-
-type GuildConfigurationQuery struct {
-	GuildID              string   `protobuf:"bytes,1,opt,name=guildID,proto3" json:"guildID,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *GuildConfigurationQuery) Reset()         { *m = GuildConfigurationQuery{} }
-func (m *GuildConfigurationQuery) String() string { return proto.CompactTextString(m) }
-func (*GuildConfigurationQuery) ProtoMessage()    {}
-func (*GuildConfigurationQuery) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cde9ec64f0d2c859, []int{8}
-}
-
-func (m *GuildConfigurationQuery) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_GuildConfigurationQuery.Unmarshal(m, b)
-}
-func (m *GuildConfigurationQuery) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_GuildConfigurationQuery.Marshal(b, m, deterministic)
-}
-func (m *GuildConfigurationQuery) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GuildConfigurationQuery.Merge(m, src)
-}
-func (m *GuildConfigurationQuery) XXX_Size() int {
-	return xxx_messageInfo_GuildConfigurationQuery.Size(m)
-}
-func (m *GuildConfigurationQuery) XXX_DiscardUnknown() {
-	xxx_messageInfo_GuildConfigurationQuery.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GuildConfigurationQuery proto.InternalMessageInfo
-
-func (m *GuildConfigurationQuery) GetGuildID() string {
-	if m != nil {
-		return m.GuildID
-	}
-	return ""
-}
-
-type GuildConfiguration struct {
-	Commands             []*GuildCommandConfiguration `protobuf:"bytes,1,rep,name=commands,proto3" json:"commands,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}                     `json:"-"`
-	XXX_unrecognized     []byte                       `json:"-"`
-	XXX_sizecache        int32                        `json:"-"`
-}
-
-func (m *GuildConfiguration) Reset()         { *m = GuildConfiguration{} }
-func (m *GuildConfiguration) String() string { return proto.CompactTextString(m) }
-func (*GuildConfiguration) ProtoMessage()    {}
-func (*GuildConfiguration) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cde9ec64f0d2c859, []int{9}
-}
-
-func (m *GuildConfiguration) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_GuildConfiguration.Unmarshal(m, b)
-}
-func (m *GuildConfiguration) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_GuildConfiguration.Marshal(b, m, deterministic)
-}
-func (m *GuildConfiguration) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GuildConfiguration.Merge(m, src)
-}
-func (m *GuildConfiguration) XXX_Size() int {
-	return xxx_messageInfo_GuildConfiguration.Size(m)
-}
-func (m *GuildConfiguration) XXX_DiscardUnknown() {
-	xxx_messageInfo_GuildConfiguration.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GuildConfiguration proto.InternalMessageInfo
-
-func (m *GuildConfiguration) GetCommands() []*GuildCommandConfiguration {
-	if m != nil {
-		return m.Commands
+		return m.GuildCommandConfigurations
 	}
 	return nil
 }
 
 type GuildCommandConfiguration struct {
-	GuildID              string   `protobuf:"bytes,1,opt,name=guildID,proto3" json:"guildID,omitempty"`
-	CommandID            string   `protobuf:"bytes,2,opt,name=commandID,proto3" json:"commandID,omitempty"`
-	Description          string   `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	IsEnabled            bool     `protobuf:"varint,4,opt,name=isEnabled,proto3" json:"isEnabled,omitempty"`
-	RestrictedChannels   []string `protobuf:"bytes,5,rep,name=restrictedChannels,proto3" json:"restrictedChannels,omitempty"`
-	RestrictedRoles      []string `protobuf:"bytes,6,rep,name=restrictedRoles,proto3" json:"restrictedRoles,omitempty"`
-	AdminOnly            bool     `protobuf:"varint,7,opt,name=adminOnly,proto3" json:"adminOnly,omitempty"`
-	Configuration        string   `protobuf:"bytes,8,opt,name=configuration,proto3" json:"configuration,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	GuildID              string               `protobuf:"bytes,1,opt,name=guildID,proto3" json:"guildID,omitempty"`
+	CommandID            string               `protobuf:"bytes,2,opt,name=commandID,proto3" json:"commandID,omitempty"`
+	Enabled              bool                 `protobuf:"varint,3,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	RoleRestrictions     []string             `protobuf:"bytes,4,rep,name=roleRestrictions,proto3" json:"roleRestrictions,omitempty"`
+	ChannelRestrictions  []string             `protobuf:"bytes,5,rep,name=channelRestrictions,proto3" json:"channelRestrictions,omitempty"`
+	LastModifiedUserId   string               `protobuf:"bytes,6,opt,name=LastModifiedUserId,json=lastModifiedUserId,proto3" json:"LastModifiedUserId,omitempty"`
+	LastModifiedDateUtc  *timestamp.Timestamp `protobuf:"bytes,7,opt,name=LastModifiedDateUtc,json=lastModifiedDateUtc,proto3" json:"LastModifiedDateUtc,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
+	XXX_unrecognized     []byte               `json:"-"`
+	XXX_sizecache        int32                `json:"-"`
 }
 
 func (m *GuildCommandConfiguration) Reset()         { *m = GuildCommandConfiguration{} }
 func (m *GuildCommandConfiguration) String() string { return proto.CompactTextString(m) }
 func (*GuildCommandConfiguration) ProtoMessage()    {}
 func (*GuildCommandConfiguration) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cde9ec64f0d2c859, []int{10}
+	return fileDescriptor_cde9ec64f0d2c859, []int{2}
 }
 
 func (m *GuildCommandConfiguration) XXX_Unmarshal(b []byte) error {
@@ -564,366 +187,274 @@ func (m *GuildCommandConfiguration) GetCommandID() string {
 	return ""
 }
 
-func (m *GuildCommandConfiguration) GetDescription() string {
+func (m *GuildCommandConfiguration) GetEnabled() bool {
 	if m != nil {
-		return m.Description
-	}
-	return ""
-}
-
-func (m *GuildCommandConfiguration) GetIsEnabled() bool {
-	if m != nil {
-		return m.IsEnabled
+		return m.Enabled
 	}
 	return false
 }
 
-func (m *GuildCommandConfiguration) GetRestrictedChannels() []string {
+func (m *GuildCommandConfiguration) GetRoleRestrictions() []string {
 	if m != nil {
-		return m.RestrictedChannels
+		return m.RoleRestrictions
 	}
 	return nil
 }
 
-func (m *GuildCommandConfiguration) GetRestrictedRoles() []string {
+func (m *GuildCommandConfiguration) GetChannelRestrictions() []string {
 	if m != nil {
-		return m.RestrictedRoles
+		return m.ChannelRestrictions
 	}
 	return nil
 }
 
-func (m *GuildCommandConfiguration) GetAdminOnly() bool {
+func (m *GuildCommandConfiguration) GetLastModifiedUserId() string {
 	if m != nil {
-		return m.AdminOnly
-	}
-	return false
-}
-
-func (m *GuildCommandConfiguration) GetConfiguration() string {
-	if m != nil {
-		return m.Configuration
+		return m.LastModifiedUserId
 	}
 	return ""
 }
 
-type GuildCommandConfigurationQuery struct {
-	GuildID              string   `protobuf:"bytes,1,opt,name=guildID,proto3" json:"guildID,omitempty"`
-	CommandID            string   `protobuf:"bytes,2,opt,name=commandID,proto3" json:"commandID,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *GuildCommandConfigurationQuery) Reset()         { *m = GuildCommandConfigurationQuery{} }
-func (m *GuildCommandConfigurationQuery) String() string { return proto.CompactTextString(m) }
-func (*GuildCommandConfigurationQuery) ProtoMessage()    {}
-func (*GuildCommandConfigurationQuery) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cde9ec64f0d2c859, []int{11}
-}
-
-func (m *GuildCommandConfigurationQuery) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_GuildCommandConfigurationQuery.Unmarshal(m, b)
-}
-func (m *GuildCommandConfigurationQuery) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_GuildCommandConfigurationQuery.Marshal(b, m, deterministic)
-}
-func (m *GuildCommandConfigurationQuery) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GuildCommandConfigurationQuery.Merge(m, src)
-}
-func (m *GuildCommandConfigurationQuery) XXX_Size() int {
-	return xxx_messageInfo_GuildCommandConfigurationQuery.Size(m)
-}
-func (m *GuildCommandConfigurationQuery) XXX_DiscardUnknown() {
-	xxx_messageInfo_GuildCommandConfigurationQuery.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GuildCommandConfigurationQuery proto.InternalMessageInfo
-
-func (m *GuildCommandConfigurationQuery) GetGuildID() string {
+func (m *GuildCommandConfiguration) GetLastModifiedDateUtc() *timestamp.Timestamp {
 	if m != nil {
-		return m.GuildID
+		return m.LastModifiedDateUtc
 	}
-	return ""
+	return nil
 }
 
-func (m *GuildCommandConfigurationQuery) GetCommandID() string {
+type CommandDefinitionList struct {
+	CommandDefinitions   []*CommandDefinition `protobuf:"bytes,1,rep,name=CommandDefinitions,json=commandDefinitions,proto3" json:"CommandDefinitions,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
+	XXX_unrecognized     []byte               `json:"-"`
+	XXX_sizecache        int32                `json:"-"`
+}
+
+func (m *CommandDefinitionList) Reset()         { *m = CommandDefinitionList{} }
+func (m *CommandDefinitionList) String() string { return proto.CompactTextString(m) }
+func (*CommandDefinitionList) ProtoMessage()    {}
+func (*CommandDefinitionList) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cde9ec64f0d2c859, []int{3}
+}
+
+func (m *CommandDefinitionList) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CommandDefinitionList.Unmarshal(m, b)
+}
+func (m *CommandDefinitionList) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CommandDefinitionList.Marshal(b, m, deterministic)
+}
+func (m *CommandDefinitionList) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CommandDefinitionList.Merge(m, src)
+}
+func (m *CommandDefinitionList) XXX_Size() int {
+	return xxx_messageInfo_CommandDefinitionList.Size(m)
+}
+func (m *CommandDefinitionList) XXX_DiscardUnknown() {
+	xxx_messageInfo_CommandDefinitionList.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CommandDefinitionList proto.InternalMessageInfo
+
+func (m *CommandDefinitionList) GetCommandDefinitions() []*CommandDefinition {
+	if m != nil {
+		return m.CommandDefinitions
+	}
+	return nil
+}
+
+type CommandDefinition struct {
+	CommandID            string                            `protobuf:"bytes,1,opt,name=commandID,proto3" json:"commandID,omitempty"`
+	Enabled              bool                              `protobuf:"varint,2,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	Triggers             []string                          `protobuf:"bytes,3,rep,name=triggers,proto3" json:"triggers,omitempty"`
+	PermissionLevel      CommandDefinition_PermissionLevel `protobuf:"varint,4,opt,name=permissionLevel,proto3,enum=com.cyto.manager.CommandDefinition_PermissionLevel" json:"permissionLevel,omitempty"`
+	ParameterDefinitions []*CommandParameterDefinition     `protobuf:"bytes,5,rep,name=parameterDefinitions,proto3" json:"parameterDefinitions,omitempty"`
+	LastModifiedUserID   string                            `protobuf:"bytes,6,opt,name=LastModifiedUserID,json=lastModifiedUserID,proto3" json:"LastModifiedUserID,omitempty"`
+	LastModifiedDateUtc  *timestamp.Timestamp              `protobuf:"bytes,7,opt,name=LastModifiedDateUtc,json=lastModifiedDateUtc,proto3" json:"LastModifiedDateUtc,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}                          `json:"-"`
+	XXX_unrecognized     []byte                            `json:"-"`
+	XXX_sizecache        int32                             `json:"-"`
+}
+
+func (m *CommandDefinition) Reset()         { *m = CommandDefinition{} }
+func (m *CommandDefinition) String() string { return proto.CompactTextString(m) }
+func (*CommandDefinition) ProtoMessage()    {}
+func (*CommandDefinition) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cde9ec64f0d2c859, []int{4}
+}
+
+func (m *CommandDefinition) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CommandDefinition.Unmarshal(m, b)
+}
+func (m *CommandDefinition) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CommandDefinition.Marshal(b, m, deterministic)
+}
+func (m *CommandDefinition) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CommandDefinition.Merge(m, src)
+}
+func (m *CommandDefinition) XXX_Size() int {
+	return xxx_messageInfo_CommandDefinition.Size(m)
+}
+func (m *CommandDefinition) XXX_DiscardUnknown() {
+	xxx_messageInfo_CommandDefinition.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CommandDefinition proto.InternalMessageInfo
+
+func (m *CommandDefinition) GetCommandID() string {
 	if m != nil {
 		return m.CommandID
 	}
 	return ""
 }
 
-type GuildMembershipQuery struct {
-	UserID               string   `protobuf:"bytes,1,opt,name=userID,proto3" json:"userID,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *GuildMembershipQuery) Reset()         { *m = GuildMembershipQuery{} }
-func (m *GuildMembershipQuery) String() string { return proto.CompactTextString(m) }
-func (*GuildMembershipQuery) ProtoMessage()    {}
-func (*GuildMembershipQuery) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cde9ec64f0d2c859, []int{12}
-}
-
-func (m *GuildMembershipQuery) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_GuildMembershipQuery.Unmarshal(m, b)
-}
-func (m *GuildMembershipQuery) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_GuildMembershipQuery.Marshal(b, m, deterministic)
-}
-func (m *GuildMembershipQuery) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GuildMembershipQuery.Merge(m, src)
-}
-func (m *GuildMembershipQuery) XXX_Size() int {
-	return xxx_messageInfo_GuildMembershipQuery.Size(m)
-}
-func (m *GuildMembershipQuery) XXX_DiscardUnknown() {
-	xxx_messageInfo_GuildMembershipQuery.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GuildMembershipQuery proto.InternalMessageInfo
-
-func (m *GuildMembershipQuery) GetUserID() string {
+func (m *CommandDefinition) GetEnabled() bool {
 	if m != nil {
-		return m.UserID
+		return m.Enabled
 	}
-	return ""
+	return false
 }
 
-type GuildMembershipList struct {
-	Memberships          []*GuildMembership `protobuf:"bytes,1,rep,name=memberships,proto3" json:"memberships,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}           `json:"-"`
-	XXX_unrecognized     []byte             `json:"-"`
-	XXX_sizecache        int32              `json:"-"`
-}
-
-func (m *GuildMembershipList) Reset()         { *m = GuildMembershipList{} }
-func (m *GuildMembershipList) String() string { return proto.CompactTextString(m) }
-func (*GuildMembershipList) ProtoMessage()    {}
-func (*GuildMembershipList) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cde9ec64f0d2c859, []int{13}
-}
-
-func (m *GuildMembershipList) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_GuildMembershipList.Unmarshal(m, b)
-}
-func (m *GuildMembershipList) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_GuildMembershipList.Marshal(b, m, deterministic)
-}
-func (m *GuildMembershipList) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GuildMembershipList.Merge(m, src)
-}
-func (m *GuildMembershipList) XXX_Size() int {
-	return xxx_messageInfo_GuildMembershipList.Size(m)
-}
-func (m *GuildMembershipList) XXX_DiscardUnknown() {
-	xxx_messageInfo_GuildMembershipList.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GuildMembershipList proto.InternalMessageInfo
-
-func (m *GuildMembershipList) GetMemberships() []*GuildMembership {
+func (m *CommandDefinition) GetTriggers() []string {
 	if m != nil {
-		return m.Memberships
+		return m.Triggers
 	}
 	return nil
 }
 
-type GuildMembership struct {
-	UserID               string   `protobuf:"bytes,1,opt,name=userID,proto3" json:"userID,omitempty"`
-	GuildID              string   `protobuf:"bytes,2,opt,name=guildID,proto3" json:"guildID,omitempty"`
-	UserNick             string   `protobuf:"bytes,3,opt,name=userNick,proto3" json:"userNick,omitempty"`
-	GuildName            string   `protobuf:"bytes,4,opt,name=guildName,proto3" json:"guildName,omitempty"`
-	GuildIcon            string   `protobuf:"bytes,5,opt,name=guildIcon,proto3" json:"guildIcon,omitempty"`
-	Roles                []string `protobuf:"bytes,6,rep,name=roles,proto3" json:"roles,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *GuildMembership) Reset()         { *m = GuildMembership{} }
-func (m *GuildMembership) String() string { return proto.CompactTextString(m) }
-func (*GuildMembership) ProtoMessage()    {}
-func (*GuildMembership) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cde9ec64f0d2c859, []int{14}
-}
-
-func (m *GuildMembership) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_GuildMembership.Unmarshal(m, b)
-}
-func (m *GuildMembership) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_GuildMembership.Marshal(b, m, deterministic)
-}
-func (m *GuildMembership) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GuildMembership.Merge(m, src)
-}
-func (m *GuildMembership) XXX_Size() int {
-	return xxx_messageInfo_GuildMembership.Size(m)
-}
-func (m *GuildMembership) XXX_DiscardUnknown() {
-	xxx_messageInfo_GuildMembership.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GuildMembership proto.InternalMessageInfo
-
-func (m *GuildMembership) GetUserID() string {
+func (m *CommandDefinition) GetPermissionLevel() CommandDefinition_PermissionLevel {
 	if m != nil {
-		return m.UserID
+		return m.PermissionLevel
 	}
-	return ""
+	return CommandDefinition_USER
 }
 
-func (m *GuildMembership) GetGuildID() string {
+func (m *CommandDefinition) GetParameterDefinitions() []*CommandParameterDefinition {
 	if m != nil {
-		return m.GuildID
-	}
-	return ""
-}
-
-func (m *GuildMembership) GetUserNick() string {
-	if m != nil {
-		return m.UserNick
-	}
-	return ""
-}
-
-func (m *GuildMembership) GetGuildName() string {
-	if m != nil {
-		return m.GuildName
-	}
-	return ""
-}
-
-func (m *GuildMembership) GetGuildIcon() string {
-	if m != nil {
-		return m.GuildIcon
-	}
-	return ""
-}
-
-func (m *GuildMembership) GetRoles() []string {
-	if m != nil {
-		return m.Roles
+		return m.ParameterDefinitions
 	}
 	return nil
 }
 
-type GuildQuery struct {
-	GuildID              string   `protobuf:"bytes,1,opt,name=guildID,proto3" json:"guildID,omitempty"`
+func (m *CommandDefinition) GetLastModifiedUserID() string {
+	if m != nil {
+		return m.LastModifiedUserID
+	}
+	return ""
+}
+
+func (m *CommandDefinition) GetLastModifiedDateUtc() *timestamp.Timestamp {
+	if m != nil {
+		return m.LastModifiedDateUtc
+	}
+	return nil
+}
+
+type CommandParameterDefinition struct {
+	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Pattern              string   `protobuf:"bytes,2,opt,name=pattern,proto3" json:"pattern,omitempty"`
+	Optional             string   `protobuf:"bytes,3,opt,name=optional,proto3" json:"optional,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *GuildQuery) Reset()         { *m = GuildQuery{} }
-func (m *GuildQuery) String() string { return proto.CompactTextString(m) }
-func (*GuildQuery) ProtoMessage()    {}
-func (*GuildQuery) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cde9ec64f0d2c859, []int{15}
+func (m *CommandParameterDefinition) Reset()         { *m = CommandParameterDefinition{} }
+func (m *CommandParameterDefinition) String() string { return proto.CompactTextString(m) }
+func (*CommandParameterDefinition) ProtoMessage()    {}
+func (*CommandParameterDefinition) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cde9ec64f0d2c859, []int{5}
 }
 
-func (m *GuildQuery) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_GuildQuery.Unmarshal(m, b)
+func (m *CommandParameterDefinition) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CommandParameterDefinition.Unmarshal(m, b)
 }
-func (m *GuildQuery) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_GuildQuery.Marshal(b, m, deterministic)
+func (m *CommandParameterDefinition) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CommandParameterDefinition.Marshal(b, m, deterministic)
 }
-func (m *GuildQuery) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GuildQuery.Merge(m, src)
+func (m *CommandParameterDefinition) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CommandParameterDefinition.Merge(m, src)
 }
-func (m *GuildQuery) XXX_Size() int {
-	return xxx_messageInfo_GuildQuery.Size(m)
+func (m *CommandParameterDefinition) XXX_Size() int {
+	return xxx_messageInfo_CommandParameterDefinition.Size(m)
 }
-func (m *GuildQuery) XXX_DiscardUnknown() {
-	xxx_messageInfo_GuildQuery.DiscardUnknown(m)
+func (m *CommandParameterDefinition) XXX_DiscardUnknown() {
+	xxx_messageInfo_CommandParameterDefinition.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GuildQuery proto.InternalMessageInfo
+var xxx_messageInfo_CommandParameterDefinition proto.InternalMessageInfo
 
-func (m *GuildQuery) GetGuildID() string {
+func (m *CommandParameterDefinition) GetName() string {
 	if m != nil {
-		return m.GuildID
+		return m.Name
+	}
+	return ""
+}
+
+func (m *CommandParameterDefinition) GetPattern() string {
+	if m != nil {
+		return m.Pattern
+	}
+	return ""
+}
+
+func (m *CommandParameterDefinition) GetOptional() string {
+	if m != nil {
+		return m.Optional
 	}
 	return ""
 }
 
 func init() {
-	proto.RegisterType((*DiscordShardList)(nil), "com.cyto.manager.DiscordShardList")
-	proto.RegisterType((*DiscordShard)(nil), "com.cyto.manager.DiscordShard")
-	proto.RegisterType((*DiscordWorkerList)(nil), "com.cyto.manager.DiscordWorkerList")
-	proto.RegisterType((*DiscordWorker)(nil), "com.cyto.manager.DiscordWorker")
-	proto.RegisterType((*CommandList)(nil), "com.cyto.manager.CommandList")
-	proto.RegisterType((*Command)(nil), "com.cyto.manager.Command")
-	proto.RegisterType((*UserCommandConfigurationQuery)(nil), "com.cyto.manager.UserCommandConfigurationQuery")
-	proto.RegisterType((*UserCommandConfiguration)(nil), "com.cyto.manager.UserCommandConfiguration")
-	proto.RegisterType((*GuildConfigurationQuery)(nil), "com.cyto.manager.GuildConfigurationQuery")
-	proto.RegisterType((*GuildConfiguration)(nil), "com.cyto.manager.GuildConfiguration")
-	proto.RegisterType((*GuildCommandConfiguration)(nil), "com.cyto.manager.GuildCommandConfiguration")
-	proto.RegisterType((*GuildCommandConfigurationQuery)(nil), "com.cyto.manager.GuildCommandConfigurationQuery")
-	proto.RegisterType((*GuildMembershipQuery)(nil), "com.cyto.manager.GuildMembershipQuery")
-	proto.RegisterType((*GuildMembershipList)(nil), "com.cyto.manager.GuildMembershipList")
-	proto.RegisterType((*GuildMembership)(nil), "com.cyto.manager.GuildMembership")
+	proto.RegisterEnum("com.cyto.manager.CommandDefinition_PermissionLevel", CommandDefinition_PermissionLevel_name, CommandDefinition_PermissionLevel_value)
 	proto.RegisterType((*GuildQuery)(nil), "com.cyto.manager.GuildQuery")
+	proto.RegisterType((*GuildCommandConfigurationList)(nil), "com.cyto.manager.GuildCommandConfigurationList")
+	proto.RegisterType((*GuildCommandConfiguration)(nil), "com.cyto.manager.GuildCommandConfiguration")
+	proto.RegisterType((*CommandDefinitionList)(nil), "com.cyto.manager.CommandDefinitionList")
+	proto.RegisterType((*CommandDefinition)(nil), "com.cyto.manager.CommandDefinition")
+	proto.RegisterType((*CommandParameterDefinition)(nil), "com.cyto.manager.CommandParameterDefinition")
 }
 
 func init() { proto.RegisterFile("manager.proto", fileDescriptor_cde9ec64f0d2c859) }
 
 var fileDescriptor_cde9ec64f0d2c859 = []byte{
-	// 829 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x55, 0x6d, 0x4f, 0xdb, 0x48,
-	0x10, 0x8e, 0x13, 0xf2, 0x36, 0x39, 0x8e, 0xb0, 0xc7, 0x71, 0x26, 0x04, 0x2e, 0xb7, 0x47, 0x51,
-	0x4a, 0x2b, 0x53, 0x81, 0x5a, 0xa9, 0x9f, 0x13, 0x1a, 0xd1, 0x42, 0xda, 0x1a, 0xa1, 0x56, 0x95,
-	0xfa, 0xc1, 0xb1, 0x97, 0xe0, 0x12, 0xdb, 0xd1, 0xda, 0x01, 0xa5, 0xaa, 0xd4, 0xdf, 0xc4, 0x6f,
-	0xe8, 0xef, 0xaa, 0x54, 0x79, 0x77, 0xfd, 0x92, 0x38, 0x4e, 0x48, 0xbf, 0x79, 0x9e, 0x79, 0x9f,
-	0x7d, 0x3c, 0x03, 0xab, 0x96, 0x66, 0x6b, 0x7d, 0x42, 0x95, 0x21, 0x75, 0x3c, 0x07, 0x55, 0x75,
-	0xc7, 0x52, 0xf4, 0xb1, 0xe7, 0x28, 0x02, 0xaf, 0x6d, 0xf7, 0x1d, 0xa7, 0x3f, 0x20, 0x87, 0x4c,
-	0xdf, 0x1b, 0x5d, 0x1d, 0x12, 0x6b, 0xe8, 0x8d, 0xb9, 0x39, 0x7e, 0x0d, 0xd5, 0xb6, 0xe9, 0xea,
-	0x0e, 0x35, 0x2e, 0xae, 0x35, 0x6a, 0x9c, 0x99, 0xae, 0x87, 0x5e, 0x40, 0xc1, 0xf5, 0x05, 0x57,
-	0x96, 0x1a, 0xb9, 0x66, 0xe5, 0x68, 0x57, 0x99, 0x8e, 0xa9, 0xc4, 0x7d, 0x54, 0x61, 0x8d, 0xbb,
-	0xf0, 0x47, 0x1c, 0x47, 0x7f, 0x42, 0xf6, 0xb4, 0x2d, 0x4b, 0x0d, 0xa9, 0x59, 0x56, 0xb3, 0x66,
-	0x1b, 0x6d, 0x42, 0x61, 0x34, 0xf4, 0x4c, 0x8b, 0xc8, 0xd9, 0x86, 0xd4, 0xcc, 0xab, 0x42, 0xf2,
-	0xf1, 0xfe, 0xc8, 0x1c, 0x18, 0xae, 0x9c, 0xe3, 0x38, 0x97, 0x70, 0x17, 0xd6, 0x45, 0xbc, 0x0f,
-	0x0e, 0xbd, 0x21, 0x94, 0x15, 0xf7, 0x12, 0x8a, 0x77, 0x4c, 0x0a, 0xaa, 0xfb, 0x37, 0xb5, 0x3a,
-	0xee, 0xa5, 0x06, 0xf6, 0xf8, 0x12, 0x56, 0x27, 0x34, 0x48, 0x86, 0x22, 0x4b, 0x15, 0x56, 0x19,
-	0x88, 0xac, 0x54, 0x97, 0xd0, 0xd3, 0x36, 0x2b, 0xb5, 0xac, 0x0a, 0x09, 0x21, 0x58, 0x19, 0x38,
-	0x9a, 0x21, 0x0a, 0x65, 0xdf, 0xb8, 0x0d, 0x95, 0x96, 0x63, 0x59, 0x9a, 0xcd, 0xa7, 0xf7, 0x1c,
-	0x4a, 0x3a, 0x17, 0x83, 0x0a, 0xb7, 0x92, 0x15, 0x0a, 0x07, 0x35, 0x34, 0xc5, 0x3f, 0x24, 0x28,
-	0x0a, 0x34, 0x31, 0x38, 0x19, 0x8a, 0x1e, 0x35, 0xfb, 0x7d, 0x42, 0x45, 0x39, 0x81, 0xe8, 0xd7,
-	0x63, 0x6b, 0x16, 0x61, 0xf5, 0x94, 0x55, 0xf6, 0x8d, 0x1a, 0x50, 0x31, 0x88, 0xab, 0x53, 0x73,
-	0xe8, 0x99, 0x8e, 0x2d, 0xaf, 0x30, 0x55, 0x1c, 0x42, 0x07, 0x50, 0xf5, 0xfb, 0x69, 0x39, 0xf6,
-	0x95, 0xd9, 0x1f, 0x51, 0xad, 0x37, 0x20, 0x72, 0xbe, 0x21, 0x35, 0x4b, 0x6a, 0x02, 0x47, 0x4f,
-	0x61, 0x9d, 0x0d, 0x65, 0xc2, 0xb8, 0xc0, 0x8c, 0x93, 0x0a, 0x7c, 0x09, 0x3b, 0x97, 0x2c, 0x02,
-	0x6b, 0x24, 0x54, 0xf9, 0x59, 0xdf, 0x8f, 0x08, 0x1d, 0xa3, 0x3a, 0x94, 0x45, 0xcb, 0x61, 0x87,
-	0x11, 0x90, 0x36, 0x76, 0x7c, 0x0b, 0x72, 0x5a, 0xd8, 0xdf, 0x8b, 0x88, 0xf6, 0x60, 0x55, 0x8f,
-	0x87, 0x11, 0x13, 0x9c, 0x04, 0xf1, 0x31, 0xfc, 0xd3, 0x99, 0xe8, 0x31, 0x6a, 0x24, 0x95, 0x3b,
-	0xf8, 0x33, 0xa0, 0xa4, 0x13, 0xea, 0x24, 0x68, 0xf1, 0x24, 0x49, 0x0b, 0xe1, 0x97, 0xec, 0x32,
-	0x46, 0x94, 0xfb, 0x2c, 0x6c, 0xa5, 0xda, 0xcd, 0xa1, 0xf4, 0xc4, 0x9c, 0xb2, 0xd3, 0x73, 0x9a,
-	0x22, 0x4d, 0x2e, 0x49, 0x9a, 0x3a, 0x94, 0x4d, 0xf7, 0xc4, 0xf6, 0x9f, 0xd9, 0x60, 0xa4, 0x2a,
-	0xa9, 0x11, 0x80, 0x14, 0x40, 0x94, 0xb8, 0x1e, 0x35, 0x75, 0x8f, 0x18, 0xad, 0x6b, 0xcd, 0xb6,
-	0xc9, 0xc0, 0x95, 0xf3, 0x8d, 0x5c, 0xb3, 0xac, 0xce, 0xd0, 0xa0, 0x26, 0xac, 0x45, 0xa8, 0xea,
-	0x0c, 0x88, 0x2b, 0x17, 0x98, 0xf1, 0x34, 0xec, 0xe7, 0xd5, 0x0c, 0xcb, 0xb4, 0xdf, 0xda, 0x83,
-	0xb1, 0x5c, 0xe4, 0x79, 0x43, 0x20, 0xf9, 0x8e, 0xa5, 0x59, 0xef, 0xf8, 0x11, 0x76, 0x53, 0x47,
-	0xb6, 0xe0, 0x39, 0xe7, 0xcf, 0x0d, 0x2b, 0xb0, 0xc1, 0x22, 0x9f, 0x13, 0xab, 0x47, 0xa8, 0x7b,
-	0x6d, 0x0e, 0x79, 0xbc, 0x88, 0x77, 0xd2, 0x04, 0x93, 0x3f, 0xc1, 0x5f, 0x53, 0xf6, 0x6c, 0x69,
-	0xb4, 0xa0, 0x62, 0x85, 0x48, 0x40, 0x90, 0xff, 0x52, 0x08, 0x12, 0xf9, 0xaa, 0x71, 0x2f, 0x7c,
-	0x2f, 0xc1, 0xda, 0x94, 0x41, 0x5a, 0x1d, 0xf1, 0x7e, 0xb3, 0x93, 0xfd, 0xd6, 0xa0, 0xe4, 0xdb,
-	0x74, 0x4d, 0xfd, 0x46, 0xd0, 0x20, 0x94, 0xfd, 0x59, 0x30, 0xb3, 0xae, 0xbf, 0x73, 0xf8, 0x62,
-	0x89, 0x80, 0x50, 0x7b, 0xaa, 0x3b, 0x36, 0xdb, 0x27, 0x81, 0xd6, 0x07, 0xd0, 0x06, 0xe4, 0x69,
-	0xec, 0x9d, 0xb9, 0x80, 0xf7, 0x01, 0x58, 0xc9, 0x0b, 0x5e, 0xe1, 0xe8, 0x67, 0x11, 0x8a, 0xe7,
-	0x7c, 0x08, 0xe8, 0x1d, 0x54, 0x3b, 0xc4, 0x8b, 0x9f, 0x1a, 0x17, 0x6d, 0x2a, 0xfc, 0xca, 0x29,
-	0xc1, 0x95, 0x53, 0x4e, 0xfc, 0x2b, 0x57, 0xc3, 0xf3, 0x6f, 0x97, 0x3f, 0x7c, 0x9c, 0x41, 0x6f,
-	0x00, 0x3a, 0xc4, 0xe3, 0x57, 0x21, 0x3d, 0xd6, 0xff, 0x0b, 0x2e, 0x8d, 0x08, 0xf6, 0x0a, 0x2a,
-	0x1d, 0xe2, 0x09, 0xaa, 0xa5, 0x47, 0xdb, 0x49, 0xbd, 0x0a, 0x22, 0xce, 0x37, 0xd8, 0xee, 0x10,
-	0x2f, 0x75, 0xef, 0x1d, 0x26, 0xfd, 0xe7, 0xae, 0xde, 0xda, 0xc1, 0xc3, 0x1d, 0x70, 0x06, 0xdd,
-	0xc1, 0xf6, 0xc5, 0x9c, 0xec, 0x4b, 0x04, 0x5b, 0x32, 0xf1, 0x17, 0xf8, 0xbb, 0x43, 0xbc, 0x19,
-	0x1b, 0xf4, 0x71, 0xea, 0xbe, 0x4c, 0xb4, 0xba, 0xf7, 0x10, 0x53, 0x9c, 0x41, 0xdf, 0xa1, 0x1e,
-	0xe5, 0x9a, 0xd1, 0xe5, 0xb3, 0x25, 0x56, 0x34, 0xcf, 0xbc, 0xcc, 0x52, 0xc7, 0x19, 0xf4, 0x15,
-	0xea, 0x17, 0xf3, 0x0a, 0x58, 0x26, 0xdc, 0xb2, 0xb9, 0x09, 0xa0, 0xa0, 0xf9, 0xd8, 0xc2, 0xd8,
-	0x5f, 0xb8, 0x74, 0x78, 0xa3, 0x8f, 0x16, 0xda, 0x09, 0x1a, 0xb7, 0x01, 0xce, 0x88, 0x76, 0x4b,
-	0x98, 0x16, 0xd5, 0x53, 0xdc, 0x78, 0xd0, 0x94, 0x7f, 0x05, 0x67, 0x7a, 0x05, 0x86, 0x1c, 0xff,
-	0x0a, 0x00, 0x00, 0xff, 0xff, 0x99, 0x5c, 0x36, 0x5d, 0xee, 0x0a, 0x00, 0x00,
+	// 605 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x54, 0x6f, 0x6e, 0xd3, 0x4e,
+	0x10, 0xad, 0x93, 0xf4, 0x4f, 0xa6, 0xea, 0xaf, 0xf9, 0x4d, 0x29, 0x32, 0xa6, 0x15, 0x91, 0x91,
+	0x20, 0x02, 0xe4, 0xa2, 0xf4, 0x02, 0x54, 0x75, 0x54, 0x45, 0x6a, 0xda, 0xb2, 0x6d, 0x85, 0x84,
+	0x84, 0xc4, 0xd6, 0x9e, 0x98, 0x15, 0xb6, 0xd7, 0x5a, 0x6f, 0x90, 0xca, 0x19, 0xb8, 0x18, 0x9f,
+	0xb9, 0x04, 0xc7, 0x40, 0xb6, 0xe3, 0xd2, 0xc4, 0x75, 0xd5, 0x48, 0x7c, 0xdb, 0xd9, 0x79, 0x6f,
+	0x77, 0xe7, 0xbd, 0xd9, 0x81, 0x8d, 0x88, 0xc7, 0x3c, 0x20, 0xe5, 0x24, 0x4a, 0x6a, 0x89, 0x1d,
+	0x4f, 0x46, 0x8e, 0x77, 0xad, 0xa5, 0x33, 0xdd, 0xb7, 0x9e, 0x06, 0x52, 0x06, 0x21, 0xed, 0xe5,
+	0xf9, 0xab, 0xc9, 0x78, 0x8f, 0xa2, 0x44, 0x5f, 0x17, 0x70, 0xeb, 0xd9, 0x7c, 0x52, 0x8b, 0x88,
+	0x52, 0xcd, 0xa3, 0xa4, 0x00, 0xd8, 0x2f, 0x00, 0x8e, 0x26, 0x22, 0xf4, 0xdf, 0x4f, 0x48, 0x5d,
+	0xa3, 0x09, 0xab, 0x41, 0x16, 0x0d, 0x5d, 0xd3, 0xe8, 0x1a, 0xbd, 0x36, 0x2b, 0x43, 0xfb, 0x87,
+	0x01, 0xbb, 0x39, 0xf0, 0x50, 0x46, 0x11, 0x8f, 0xfd, 0x43, 0x19, 0x8f, 0x45, 0x30, 0x51, 0x5c,
+	0x0b, 0x19, 0x1f, 0x8b, 0x54, 0xe3, 0x57, 0xb0, 0x82, 0x3a, 0x40, 0x6a, 0x1a, 0xdd, 0x66, 0x6f,
+	0xbd, 0xff, 0xda, 0x99, 0x7f, 0xbe, 0x53, 0x7b, 0x28, 0xbb, 0xe7, 0x38, 0xfb, 0x67, 0x03, 0x9e,
+	0xd4, 0x32, 0xeb, 0xcb, 0xc0, 0x1d, 0x68, 0x7b, 0x05, 0x63, 0xe8, 0x9a, 0x8d, 0x3c, 0xf7, 0x77,
+	0x23, 0xe3, 0x51, 0xcc, 0xaf, 0x42, 0xf2, 0xcd, 0x66, 0xd7, 0xe8, 0xad, 0xb1, 0x32, 0xc4, 0x57,
+	0xd0, 0x51, 0x32, 0x24, 0x46, 0xa9, 0x56, 0xc2, 0x2b, 0x4a, 0x6a, 0x75, 0x9b, 0xbd, 0x36, 0xab,
+	0xec, 0xe3, 0x5b, 0xd8, 0xf2, 0xbe, 0xf0, 0x38, 0xa6, 0x70, 0x06, 0xbe, 0x9c, 0xc3, 0xef, 0x4a,
+	0xa1, 0x03, 0x78, 0xcc, 0x53, 0x3d, 0x92, 0xbe, 0x18, 0x0b, 0xf2, 0x2f, 0x53, 0x52, 0x43, 0xdf,
+	0x5c, 0xc9, 0x9f, 0x87, 0x61, 0x25, 0x83, 0xc7, 0xb0, 0x75, 0x1b, 0xef, 0x72, 0x4d, 0x97, 0xda,
+	0x33, 0x57, 0xbb, 0x46, 0x6f, 0xbd, 0x6f, 0x39, 0x85, 0xe7, 0x4e, 0xe9, 0xb9, 0x73, 0x51, 0x7a,
+	0xce, 0xb6, 0xc2, 0x2a, 0xcd, 0x0e, 0x61, 0x7b, 0xaa, 0xa2, 0x4b, 0x63, 0x11, 0x8b, 0x1b, 0x47,
+	0xcf, 0x01, 0x2b, 0x89, 0xd2, 0xc9, 0xe7, 0x55, 0x27, 0x2b, 0x58, 0x86, 0x5e, 0x85, 0x6e, 0xff,
+	0x6e, 0xc2, 0xff, 0x15, 0xe4, 0xac, 0x2f, 0xc6, 0x3d, 0xbe, 0x34, 0x66, 0x7d, 0xb1, 0x60, 0x4d,
+	0x2b, 0x11, 0x04, 0xa4, 0x52, 0xb3, 0x99, 0x0b, 0x7c, 0x13, 0xe3, 0x27, 0xd8, 0x4c, 0x48, 0x45,
+	0x22, 0x4d, 0xb3, 0x82, 0xe8, 0x1b, 0x85, 0x66, 0xab, 0x6b, 0xf4, 0xfe, 0xeb, 0xef, 0x3f, 0xe0,
+	0xed, 0xce, 0xd9, 0x2c, 0x95, 0xcd, 0x9f, 0x85, 0x9f, 0xe1, 0x51, 0xc2, 0x15, 0x8f, 0x48, 0x93,
+	0xba, 0xad, 0xcf, 0x72, 0xae, 0xcf, 0x9b, 0xda, 0x3b, 0xce, 0xaa, 0x24, 0x76, 0xe7, 0x49, 0x77,
+	0xb6, 0x85, 0x5b, 0xdb, 0x16, 0xee, 0x3f, 0x6e, 0x8b, 0x77, 0xb0, 0x39, 0xa7, 0x01, 0xae, 0x41,
+	0xeb, 0xf2, 0x7c, 0xc0, 0x3a, 0x4b, 0xb8, 0x01, 0xed, 0xd1, 0xa9, 0x3b, 0x60, 0x07, 0x17, 0xa7,
+	0xac, 0x63, 0x60, 0x1b, 0x96, 0x0f, 0xdc, 0xd1, 0xf0, 0xa4, 0xd3, 0xc8, 0x96, 0xa7, 0x1f, 0x4e,
+	0x06, 0xac, 0xd3, 0xb4, 0xc7, 0x60, 0xd5, 0xd7, 0x8c, 0x08, 0xad, 0x98, 0x47, 0x34, 0x75, 0x3b,
+	0x5f, 0x67, 0x46, 0x27, 0x5c, 0x6b, 0x52, 0xf1, 0xf4, 0x73, 0x96, 0x61, 0x66, 0xb4, 0x4c, 0x32,
+	0x1e, 0x0f, 0xf3, 0xbf, 0xd9, 0x66, 0x37, 0x71, 0xff, 0x57, 0x03, 0x56, 0x47, 0x85, 0xc8, 0xf8,
+	0x11, 0xb6, 0x8f, 0x48, 0x57, 0xdb, 0x16, 0x1f, 0x57, 0xea, 0x1f, 0x64, 0x73, 0xd2, 0x7a, 0xf9,
+	0x80, 0x66, 0xc8, 0x7e, 0x83, 0xbd, 0x84, 0x09, 0xec, 0x1e, 0x91, 0xae, 0x1d, 0x3b, 0x29, 0xee,
+	0xd4, 0x8c, 0xb7, 0x7c, 0xb8, 0x5a, 0x7b, 0x0b, 0x0c, 0xbf, 0xe9, 0x8d, 0xdf, 0x61, 0xe7, 0xfc,
+	0x9e, 0x1b, 0x71, 0x91, 0x79, 0x6a, 0x2d, 0x02, 0xb6, 0x97, 0xae, 0x56, 0x72, 0xa1, 0xf6, 0xff,
+	0x04, 0x00, 0x00, 0xff, 0xff, 0xe9, 0x70, 0xe6, 0x4d, 0x81, 0x06, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -938,16 +469,9 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type ManagerClient interface {
-	GetDiscordShards(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*DiscordShardList, error)
-	GetWorkers(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*DiscordWorkerList, error)
-	GetCommands(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*CommandList, error)
-	GetUserCommandConfiguration(ctx context.Context, in *UserCommandConfigurationQuery, opts ...grpc.CallOption) (*UserCommandConfiguration, error)
-	SetUserCommandConfiguration(ctx context.Context, in *UserCommandConfiguration, opts ...grpc.CallOption) (*UserCommandConfiguration, error)
-	GetGuildConfiguration(ctx context.Context, in *GuildConfigurationQuery, opts ...grpc.CallOption) (*GuildConfiguration, error)
-	GetGuildCommandConfiguration(ctx context.Context, in *GuildCommandConfigurationQuery, opts ...grpc.CallOption) (*GuildCommandConfiguration, error)
+	GetCommandDefinitions(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*CommandDefinitionList, error)
+	GetGuildCommandConfigurations(ctx context.Context, in *GuildQuery, opts ...grpc.CallOption) (*GuildCommandConfigurationList, error)
 	SetGuildCommandConfiguration(ctx context.Context, in *GuildCommandConfiguration, opts ...grpc.CallOption) (*GuildCommandConfiguration, error)
-	GetGuildMembership(ctx context.Context, in *GuildMembershipQuery, opts ...grpc.CallOption) (*GuildMembershipList, error)
-	LeaveGuild(ctx context.Context, in *GuildQuery, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type managerClient struct {
@@ -958,63 +482,18 @@ func NewManagerClient(cc *grpc.ClientConn) ManagerClient {
 	return &managerClient{cc}
 }
 
-func (c *managerClient) GetDiscordShards(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*DiscordShardList, error) {
-	out := new(DiscordShardList)
-	err := c.cc.Invoke(ctx, "/com.cyto.manager.Manager/GetDiscordShards", in, out, opts...)
+func (c *managerClient) GetCommandDefinitions(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*CommandDefinitionList, error) {
+	out := new(CommandDefinitionList)
+	err := c.cc.Invoke(ctx, "/com.cyto.manager.Manager/GetCommandDefinitions", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *managerClient) GetWorkers(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*DiscordWorkerList, error) {
-	out := new(DiscordWorkerList)
-	err := c.cc.Invoke(ctx, "/com.cyto.manager.Manager/GetWorkers", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *managerClient) GetCommands(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*CommandList, error) {
-	out := new(CommandList)
-	err := c.cc.Invoke(ctx, "/com.cyto.manager.Manager/GetCommands", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *managerClient) GetUserCommandConfiguration(ctx context.Context, in *UserCommandConfigurationQuery, opts ...grpc.CallOption) (*UserCommandConfiguration, error) {
-	out := new(UserCommandConfiguration)
-	err := c.cc.Invoke(ctx, "/com.cyto.manager.Manager/GetUserCommandConfiguration", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *managerClient) SetUserCommandConfiguration(ctx context.Context, in *UserCommandConfiguration, opts ...grpc.CallOption) (*UserCommandConfiguration, error) {
-	out := new(UserCommandConfiguration)
-	err := c.cc.Invoke(ctx, "/com.cyto.manager.Manager/SetUserCommandConfiguration", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *managerClient) GetGuildConfiguration(ctx context.Context, in *GuildConfigurationQuery, opts ...grpc.CallOption) (*GuildConfiguration, error) {
-	out := new(GuildConfiguration)
-	err := c.cc.Invoke(ctx, "/com.cyto.manager.Manager/GetGuildConfiguration", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *managerClient) GetGuildCommandConfiguration(ctx context.Context, in *GuildCommandConfigurationQuery, opts ...grpc.CallOption) (*GuildCommandConfiguration, error) {
-	out := new(GuildCommandConfiguration)
-	err := c.cc.Invoke(ctx, "/com.cyto.manager.Manager/GetGuildCommandConfiguration", in, out, opts...)
+func (c *managerClient) GetGuildCommandConfigurations(ctx context.Context, in *GuildQuery, opts ...grpc.CallOption) (*GuildCommandConfigurationList, error) {
+	out := new(GuildCommandConfigurationList)
+	err := c.cc.Invoke(ctx, "/com.cyto.manager.Manager/GetGuildCommandConfigurations", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1030,199 +509,63 @@ func (c *managerClient) SetGuildCommandConfiguration(ctx context.Context, in *Gu
 	return out, nil
 }
 
-func (c *managerClient) GetGuildMembership(ctx context.Context, in *GuildMembershipQuery, opts ...grpc.CallOption) (*GuildMembershipList, error) {
-	out := new(GuildMembershipList)
-	err := c.cc.Invoke(ctx, "/com.cyto.manager.Manager/GetGuildMembership", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *managerClient) LeaveGuild(ctx context.Context, in *GuildQuery, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/com.cyto.manager.Manager/LeaveGuild", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // ManagerServer is the server API for Manager service.
 type ManagerServer interface {
-	GetDiscordShards(context.Context, *empty.Empty) (*DiscordShardList, error)
-	GetWorkers(context.Context, *empty.Empty) (*DiscordWorkerList, error)
-	GetCommands(context.Context, *empty.Empty) (*CommandList, error)
-	GetUserCommandConfiguration(context.Context, *UserCommandConfigurationQuery) (*UserCommandConfiguration, error)
-	SetUserCommandConfiguration(context.Context, *UserCommandConfiguration) (*UserCommandConfiguration, error)
-	GetGuildConfiguration(context.Context, *GuildConfigurationQuery) (*GuildConfiguration, error)
-	GetGuildCommandConfiguration(context.Context, *GuildCommandConfigurationQuery) (*GuildCommandConfiguration, error)
+	GetCommandDefinitions(context.Context, *empty.Empty) (*CommandDefinitionList, error)
+	GetGuildCommandConfigurations(context.Context, *GuildQuery) (*GuildCommandConfigurationList, error)
 	SetGuildCommandConfiguration(context.Context, *GuildCommandConfiguration) (*GuildCommandConfiguration, error)
-	GetGuildMembership(context.Context, *GuildMembershipQuery) (*GuildMembershipList, error)
-	LeaveGuild(context.Context, *GuildQuery) (*empty.Empty, error)
 }
 
 // UnimplementedManagerServer can be embedded to have forward compatible implementations.
 type UnimplementedManagerServer struct {
 }
 
-func (*UnimplementedManagerServer) GetDiscordShards(ctx context.Context, req *empty.Empty) (*DiscordShardList, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetDiscordShards not implemented")
+func (*UnimplementedManagerServer) GetCommandDefinitions(ctx context.Context, req *empty.Empty) (*CommandDefinitionList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCommandDefinitions not implemented")
 }
-func (*UnimplementedManagerServer) GetWorkers(ctx context.Context, req *empty.Empty) (*DiscordWorkerList, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetWorkers not implemented")
-}
-func (*UnimplementedManagerServer) GetCommands(ctx context.Context, req *empty.Empty) (*CommandList, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetCommands not implemented")
-}
-func (*UnimplementedManagerServer) GetUserCommandConfiguration(ctx context.Context, req *UserCommandConfigurationQuery) (*UserCommandConfiguration, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserCommandConfiguration not implemented")
-}
-func (*UnimplementedManagerServer) SetUserCommandConfiguration(ctx context.Context, req *UserCommandConfiguration) (*UserCommandConfiguration, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SetUserCommandConfiguration not implemented")
-}
-func (*UnimplementedManagerServer) GetGuildConfiguration(ctx context.Context, req *GuildConfigurationQuery) (*GuildConfiguration, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetGuildConfiguration not implemented")
-}
-func (*UnimplementedManagerServer) GetGuildCommandConfiguration(ctx context.Context, req *GuildCommandConfigurationQuery) (*GuildCommandConfiguration, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetGuildCommandConfiguration not implemented")
+func (*UnimplementedManagerServer) GetGuildCommandConfigurations(ctx context.Context, req *GuildQuery) (*GuildCommandConfigurationList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetGuildCommandConfigurations not implemented")
 }
 func (*UnimplementedManagerServer) SetGuildCommandConfiguration(ctx context.Context, req *GuildCommandConfiguration) (*GuildCommandConfiguration, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetGuildCommandConfiguration not implemented")
-}
-func (*UnimplementedManagerServer) GetGuildMembership(ctx context.Context, req *GuildMembershipQuery) (*GuildMembershipList, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetGuildMembership not implemented")
-}
-func (*UnimplementedManagerServer) LeaveGuild(ctx context.Context, req *GuildQuery) (*empty.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method LeaveGuild not implemented")
 }
 
 func RegisterManagerServer(s *grpc.Server, srv ManagerServer) {
 	s.RegisterService(&_Manager_serviceDesc, srv)
 }
 
-func _Manager_GetDiscordShards_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Manager_GetCommandDefinitions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(empty.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ManagerServer).GetDiscordShards(ctx, in)
+		return srv.(ManagerServer).GetCommandDefinitions(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/com.cyto.manager.Manager/GetDiscordShards",
+		FullMethod: "/com.cyto.manager.Manager/GetCommandDefinitions",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ManagerServer).GetDiscordShards(ctx, req.(*empty.Empty))
+		return srv.(ManagerServer).GetCommandDefinitions(ctx, req.(*empty.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Manager_GetWorkers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(empty.Empty)
+func _Manager_GetGuildCommandConfigurations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GuildQuery)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ManagerServer).GetWorkers(ctx, in)
+		return srv.(ManagerServer).GetGuildCommandConfigurations(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/com.cyto.manager.Manager/GetWorkers",
+		FullMethod: "/com.cyto.manager.Manager/GetGuildCommandConfigurations",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ManagerServer).GetWorkers(ctx, req.(*empty.Empty))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Manager_GetCommands_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(empty.Empty)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ManagerServer).GetCommands(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/com.cyto.manager.Manager/GetCommands",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ManagerServer).GetCommands(ctx, req.(*empty.Empty))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Manager_GetUserCommandConfiguration_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserCommandConfigurationQuery)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ManagerServer).GetUserCommandConfiguration(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/com.cyto.manager.Manager/GetUserCommandConfiguration",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ManagerServer).GetUserCommandConfiguration(ctx, req.(*UserCommandConfigurationQuery))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Manager_SetUserCommandConfiguration_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserCommandConfiguration)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ManagerServer).SetUserCommandConfiguration(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/com.cyto.manager.Manager/SetUserCommandConfiguration",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ManagerServer).SetUserCommandConfiguration(ctx, req.(*UserCommandConfiguration))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Manager_GetGuildConfiguration_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GuildConfigurationQuery)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ManagerServer).GetGuildConfiguration(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/com.cyto.manager.Manager/GetGuildConfiguration",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ManagerServer).GetGuildConfiguration(ctx, req.(*GuildConfigurationQuery))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Manager_GetGuildCommandConfiguration_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GuildCommandConfigurationQuery)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ManagerServer).GetGuildCommandConfiguration(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/com.cyto.manager.Manager/GetGuildCommandConfiguration",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ManagerServer).GetGuildCommandConfiguration(ctx, req.(*GuildCommandConfigurationQuery))
+		return srv.(ManagerServer).GetGuildCommandConfigurations(ctx, req.(*GuildQuery))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1245,85 +588,21 @@ func _Manager_SetGuildCommandConfiguration_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Manager_GetGuildMembership_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GuildMembershipQuery)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ManagerServer).GetGuildMembership(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/com.cyto.manager.Manager/GetGuildMembership",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ManagerServer).GetGuildMembership(ctx, req.(*GuildMembershipQuery))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Manager_LeaveGuild_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GuildQuery)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ManagerServer).LeaveGuild(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/com.cyto.manager.Manager/LeaveGuild",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ManagerServer).LeaveGuild(ctx, req.(*GuildQuery))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 var _Manager_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "com.cyto.manager.Manager",
 	HandlerType: (*ManagerServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetDiscordShards",
-			Handler:    _Manager_GetDiscordShards_Handler,
+			MethodName: "GetCommandDefinitions",
+			Handler:    _Manager_GetCommandDefinitions_Handler,
 		},
 		{
-			MethodName: "GetWorkers",
-			Handler:    _Manager_GetWorkers_Handler,
-		},
-		{
-			MethodName: "GetCommands",
-			Handler:    _Manager_GetCommands_Handler,
-		},
-		{
-			MethodName: "GetUserCommandConfiguration",
-			Handler:    _Manager_GetUserCommandConfiguration_Handler,
-		},
-		{
-			MethodName: "SetUserCommandConfiguration",
-			Handler:    _Manager_SetUserCommandConfiguration_Handler,
-		},
-		{
-			MethodName: "GetGuildConfiguration",
-			Handler:    _Manager_GetGuildConfiguration_Handler,
-		},
-		{
-			MethodName: "GetGuildCommandConfiguration",
-			Handler:    _Manager_GetGuildCommandConfiguration_Handler,
+			MethodName: "GetGuildCommandConfigurations",
+			Handler:    _Manager_GetGuildCommandConfigurations_Handler,
 		},
 		{
 			MethodName: "SetGuildCommandConfiguration",
 			Handler:    _Manager_SetGuildCommandConfiguration_Handler,
-		},
-		{
-			MethodName: "GetGuildMembership",
-			Handler:    _Manager_GetGuildMembership_Handler,
-		},
-		{
-			MethodName: "LeaveGuild",
-			Handler:    _Manager_LeaveGuild_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

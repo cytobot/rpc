@@ -3,105 +3,54 @@ syntax = "proto3";
 package com.cyto.manager;
 
 import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
 
 service Manager {
-    rpc GetDiscordShards(google.protobuf.Empty) returns (DiscordShardList) {}
-    rpc GetWorkers(google.protobuf.Empty) returns (DiscordWorkerList) {}
-    rpc GetCommands(google.protobuf.Empty) returns (CommandList) {}
-    rpc GetUserCommandConfiguration(UserCommandConfigurationQuery) returns (UserCommandConfiguration) {}
-    rpc SetUserCommandConfiguration(UserCommandConfiguration) returns (UserCommandConfiguration) {}
-    rpc GetGuildConfiguration(GuildConfigurationQuery) returns (GuildConfiguration) {}
-    rpc GetGuildCommandConfiguration(GuildCommandConfigurationQuery) returns (GuildCommandConfiguration) {}
+    rpc GetCommandDefinitions(google.protobuf.Empty) returns (CommandDefinitionList) {}
+    rpc GetGuildCommandConfigurations(GuildQuery) returns (GuildCommandConfigurationList) {}
     rpc SetGuildCommandConfiguration(GuildCommandConfiguration) returns (GuildCommandConfiguration) {}
-    rpc GetGuildMembership(GuildMembershipQuery) returns (GuildMembershipList) {}
-    rpc LeaveGuild(GuildQuery) returns (google.protobuf.Empty) {}
 }
 
-message DiscordShardList {
-    repeated DiscordShard shards = 1;
-}
-
-message DiscordShard {
-    string ID = 1;
-    int32 uptime = 2;
-    int32 guilds = 3;
-}
-
-message DiscordWorkerList {
-    repeated DiscordWorker workers = 1;    
-}
-
-message DiscordWorker {
-    string guildID = 1;
-    string userID = 2;
-    int32 load = 3;
-}
-
-message CommandList {
-    repeated Command commands = 1;
-}
-
-message Command {
-    string ID = 1;
-    string trigger = 2;
-    string name = 3;
-    string description = 4;
-    bool userConfigurable = 5;
-    bool guildConfigurable = 6;
-}
-
-message UserCommandConfigurationQuery {
-    string commandID = 1;
-    string userID = 2;
-}
-
-message UserCommandConfiguration {
-    string commandID = 1;
-    string userID = 2;
-    string configuration = 3;
-}
-
-message GuildConfigurationQuery {
+message GuildQuery {
     string guildID = 1;
 }
 
-message GuildConfiguration {
-    repeated GuildCommandConfiguration commands = 1;
+message GuildCommandConfigurationList {
+    repeated GuildCommandConfiguration guildCommandConfigurations = 1;
 }
 
 message GuildCommandConfiguration {
     string guildID = 1;
     string commandID = 2;
-    string description = 3;
-    bool isEnabled = 4;
-    repeated string restrictedChannels = 5;
-    repeated string restrictedRoles = 6;
-    bool adminOnly = 7;
-    string configuration = 8;
+    bool enabled = 3;
+    repeated string roleRestrictions = 4;
+    repeated string channelRestrictions = 5;
+    string LastModifiedUserId = 6;
+    google.protobuf.Timestamp LastModifiedDateUtc = 7;
 }
 
-message GuildCommandConfigurationQuery {
-    string guildID = 1;
-    string commandID = 2;
+message CommandDefinitionList {
+    repeated CommandDefinition CommandDefinitions = 1;
 }
 
-message GuildMembershipQuery {
-    string userID = 1;
+message CommandDefinition {
+    string commandID = 1;
+    bool enabled = 2;
+    repeated string triggers = 3;
+    enum PermissionLevel {
+        USER = 0;
+        MODERATOR = 1;
+        ADMIN = 2;
+        OWNER = 3;
+    }
+    PermissionLevel permissionLevel = 4;
+    repeated CommandParameterDefinition parameterDefinitions = 5;
+    string LastModifiedUserID = 6;
+    google.protobuf.Timestamp LastModifiedDateUtc = 7;
 }
 
-message GuildMembershipList {
-    repeated GuildMembership memberships = 1;
-}
-
-message GuildMembership {
-    string userID = 1;
-    string guildID = 2;
-    string userNick = 3;
-    string guildName = 4;
-    string guildIcon = 5;
-    repeated string roles = 6;
-}
-
-message GuildQuery {
-    string guildID = 1;
+message CommandParameterDefinition {
+    string name = 1;
+    string pattern = 2;
+    string optional = 3;
 }
