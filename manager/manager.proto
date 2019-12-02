@@ -45,8 +45,8 @@ message CommandDefinition {
     }
     PermissionLevel permissionLevel = 4;
     repeated CommandParameterDefinition parameterDefinitions = 5;
-    string LastModifiedUserID = 6;
-    google.protobuf.Timestamp LastModifiedDateUtc = 7;
+    string lastModifiedUserID = 6;
+    google.protobuf.Timestamp lastModifiedDateUtc = 7;
     string description = 8;
     bool unlisted = 9;
 }
