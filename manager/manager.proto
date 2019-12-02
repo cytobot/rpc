@@ -48,6 +48,7 @@ message CommandDefinition {
     string LastModifiedUserID = 6;
     google.protobuf.Timestamp LastModifiedDateUtc = 7;
     string description = 8;
+    bool unlisted = 9;
 }
 
 message CommandParameterDefinition {
