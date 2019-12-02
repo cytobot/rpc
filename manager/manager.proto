@@ -25,12 +25,12 @@ message GuildCommandConfiguration {
     bool enabled = 3;
     repeated string roleRestrictions = 4;
     repeated string channelRestrictions = 5;
-    string LastModifiedUserId = 6;
-    google.protobuf.Timestamp LastModifiedDateUtc = 7;
+    string lastModifiedUserId = 6;
+    google.protobuf.Timestamp lastModifiedDateUtc = 7;
 }
 
 message CommandDefinitionList {
-    repeated CommandDefinition CommandDefinitions = 1;
+    repeated CommandDefinition commandDefinitions = 1;
 }
 
 message CommandDefinition {
