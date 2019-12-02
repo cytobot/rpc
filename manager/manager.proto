@@ -52,5 +52,5 @@ message CommandDefinition {
 message CommandParameterDefinition {
     string name = 1;
     string pattern = 2;
-    string optional = 3;
+    bool optional = 3;
 }
