@@ -9,6 +9,8 @@ service Manager {
     rpc GetCommandDefinitions(google.protobuf.Empty) returns (CommandDefinitionList) {}
     rpc GetGuildCommandConfigurations(GuildQuery) returns (GuildCommandConfigurationList) {}
     rpc SetGuildCommandConfiguration(GuildCommandConfiguration) returns (GuildCommandConfiguration) {}
+    rpc GetWorkerHealthChecks(google.protobuf.Empty) returns (HealthCheckStatusList) {}
+    rpc GetListenerHealthChecks(google.protobuf.Empty) returns (HealthCheckStatusList) {}
 }
 
 message GuildQuery {
@@ -55,4 +57,21 @@ message CommandParameterDefinition {
     string name = 1;
     string pattern = 2;
     bool optional = 3;
+}
+
+message HealthCheckStatusList {
+    repeated HealthCheckStatus healthChecks = 1;
+}
+
+message HealthCheckStatus {
+    google.protobuf.Timestamp timestamp = 1;
+    string instanceID = 2;
+    int32 shardID = 3;
+    int64 uptime = 4;
+    int64 memAllocated = 5;
+    int64 memSystem = 6;
+    int64 memCumulative = 7;
+    int32 taskCount = 8;
+    int32 connectedServers = 9;
+    int32 connectedUsers = 10;
 }
